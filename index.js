@@ -22,6 +22,14 @@ const client = new MongoClient(uri, {
 async function run() {
   try {
     const watchCollection = client.db('Watches_DB').collection('Watches');
+    const userCollection = client.db('Watches_DB').collection('Users');
+
+    // users collection api
+    app.post('/users', async (req, res) => {
+      const user = req.body;
+      const result = await userCollection.insertOne(user);
+      res.send(result);
+    });
 
     // watches section apis
 
