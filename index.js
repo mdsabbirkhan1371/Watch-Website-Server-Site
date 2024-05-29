@@ -23,7 +23,23 @@ async function run() {
   try {
     const watchCollection = client.db('Watches_DB').collection('Watches');
     const userCollection = client.db('Watches_DB').collection('Users');
+    const orderCollection = client.db('Watches_DB').collection('Orders');
 
+    // orders collection apis
+
+    // get all order data
+    app.get('/orders', async (req, res) => {
+      const cursor = orderCollection.find();
+      const orders = await cursor.toArray();
+      res.send(orders);
+    });
+
+    // post order to send db
+    app.post('/watches/:id', async (req, res) => {
+      const order = req.body;
+      const result = await orderCollection.insertOne(order);
+      res.send(result);
+    });
     // users collection api
     app.post('/users', async (req, res) => {
       const user = req.body;
