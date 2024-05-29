@@ -5,7 +5,13 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5000;
 
-app.use(cors());
+var corsOptions = {
+  origin: 'http://localhost:5173',
+};
+
+app.use(cors(corsOptions));
+
+app.use(cors(corsOptions));
 app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@watches.od6rwj4.mongodb.net/?retryWrites=true&w=majority&appName=Watches`;
