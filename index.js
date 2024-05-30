@@ -5,13 +5,12 @@ const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express();
 const port = process.env.PORT || 5000;
 
-var corsOptions = {
-  origin: 'http://localhost:5173',
-};
-
-app.use(cors(corsOptions));
-
-app.use(cors(corsOptions));
+app.use(
+  cors({
+    origin: 'http://localhost:5173',
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
+  })
+);
 app.use(express.json());
 
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@watches.od6rwj4.mongodb.net/?retryWrites=true&w=majority&appName=Watches`;
@@ -68,7 +67,7 @@ async function run() {
     app.get('/watches', async (req, res) => {
       const cursor = watchCollection.find();
       const result = await cursor.toArray();
-      res.send(result);
+      res.json(result);
     });
     // post data in db
     app.post('/watches', async (req, res) => {
